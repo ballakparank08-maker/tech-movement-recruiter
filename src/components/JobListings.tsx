@@ -220,6 +220,8 @@ export const JobListings: React.FC<JobListingsProps> = ({
             <JobCard
               key={job.id}
               job={job}
+              onSelectJob={onSelectJob}
+              onApplyJob={onApplyJob}
               onSelect={onSelectJob}
               onApply={onApplyJob}
             />

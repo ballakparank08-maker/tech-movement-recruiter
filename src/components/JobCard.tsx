@@ -10,16 +10,32 @@ import { useLanguage } from '../context/LanguageContext';
 
 interface JobCardProps {
   job: Job;
-  onSelectJob: (job: Job) => void;
-  onApplyJob: (job: Job) => void;
+  onSelectJob?: (job: Job) => void;
+  onApplyJob?: (job: Job) => void;
+  onSelect?: (job: Job) => void;
+  onApply?: (job: Job) => void;
 }
 
 export const JobCard: React.FC<JobCardProps> = ({
   job,
   onSelectJob,
-  onApplyJob
+  onApplyJob,
+  onSelect,
+  onApply
 }) => {
   const { t } = useLanguage();
+
+  const handleSelect = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (onSelectJob) onSelectJob(job);
+    if (onSelect) onSelect(job);
+  };
+
+  const handleApply = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (onApplyJob) onApplyJob(job);
+    if (onApply) onApply(job);
+  };
 
   return (
     <div
@@ -52,7 +68,7 @@ export const JobCard: React.FC<JobCardProps> = ({
 
         {/* Job Title */}
         <h3
-          onClick={() => onSelectJob(job)}
+          onClick={handleSelect}
           className="text-lg sm:text-xl font-bold text-white group-hover:text-[#F7C59F] transition-colors font-['Outfit'] cursor-pointer mb-2 line-clamp-2"
         >
           {job.title}
@@ -102,7 +118,7 @@ export const JobCard: React.FC<JobCardProps> = ({
         <div className="grid grid-cols-2 gap-2 pt-1">
           <button
             type="button"
-            onClick={() => onSelectJob(job)}
+            onClick={handleSelect}
             className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-semibold text-center transition-colors border border-white/10 cursor-pointer"
             id={`view-details-${job.id}`}
           >
@@ -111,7 +127,7 @@ export const JobCard: React.FC<JobCardProps> = ({
 
           <button
             type="button"
-            onClick={() => onApplyJob(job)}
+            onClick={handleApply}
             className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white text-xs font-semibold text-center transition-all shadow-md shadow-[#FF6B35]/25 flex items-center justify-center gap-1 cursor-pointer"
             id={`quick-apply-${job.id}`}
           >
