@@ -30,6 +30,7 @@ import { ApplicationTrackerModal } from './components/ApplicationTrackerModal';
 import { AdminDashboard } from './components/AdminDashboard';
 import { RecruiterAuthGate } from './components/RecruiterAuthGate';
 import { Footer } from './components/Footer';
+import { DeviceFrameWrapper } from './components/DeviceFrameWrapper';
 
 export default function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -89,163 +90,165 @@ export default function App() {
   const openRolesCount = jobs.filter((j) => j.isOpen).length;
 
   return (
-    <div className="min-h-screen bg-[#070C1E] text-slate-100 flex flex-col selection:bg-[#FF6B35]/30 selection:text-[#F7C59F] bg-tech-grid">
-      {/* Top Main Navbar */}
-      <Navbar
-        currentView={currentView}
-        onViewChange={setCurrentView}
-        onOpenTracker={() => setIsTrackerOpen(true)}
-        openRolesCount={openRolesCount}
-        recruiterUser={recruiterUser}
-        onSignOutRecruiter={handleRecruiterSignOut}
-      />
+    <DeviceFrameWrapper>
+      <div className="min-h-screen bg-[#070C1E] text-slate-100 flex flex-col selection:bg-[#FF6B35]/30 selection:text-[#F7C59F] bg-tech-grid">
+        {/* Top Main Navbar */}
+        <Navbar
+          currentView={currentView}
+          onViewChange={setCurrentView}
+          onOpenTracker={() => setIsTrackerOpen(true)}
+          openRolesCount={openRolesCount}
+          recruiterUser={recruiterUser}
+          onSignOutRecruiter={handleRecruiterSignOut}
+        />
 
-      {/* Main View Router */}
-      <main className="flex-1">
-        {currentView === 'careers' ? (
-          <div className="space-y-12 pb-16">
-            {/* 1. Job Listings Section */}
-            <JobListings
-              jobs={jobs}
-              onSelectJob={(job) => setSelectedJobForDetail(job)}
-              onApplyJob={(job) => setSelectedJobForApply(job)}
-            />
+        {/* Main View Router */}
+        <main className="flex-1">
+          {currentView === 'careers' ? (
+            <div className="space-y-12 pb-16">
+              {/* 1. Job Listings Section */}
+              <JobListings
+                jobs={jobs}
+                onSelectJob={(job) => setSelectedJobForDetail(job)}
+                onApplyJob={(job) => setSelectedJobForApply(job)}
+              />
 
-            {/* 2. Company Innovation Pillars & Culture Section */}
-            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="culture-section">
-              <div className="frosted-luxe rounded-3xl p-8 sm:p-12 relative overflow-hidden tm-glow-dual">
-                {/* Glow ambient lights */}
-                <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#004E89]/20 rounded-full blur-3xl pointer-events-none" />
+              {/* 2. Company Innovation Pillars & Culture Section */}
+              <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="culture-section">
+                <div className="frosted-luxe rounded-3xl p-8 sm:p-12 relative overflow-hidden tm-glow-dual">
+                  {/* Glow ambient lights */}
+                  <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#FF6B35]/10 rounded-full blur-3xl pointer-events-none" />
+                  <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#004E89]/20 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="relative z-10 space-y-8">
-                  <div className="max-w-2xl space-y-3">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] text-xs font-mono">
-                      <Zap className="w-3.5 h-3.5 text-[#FF6B35]" />
-                      <span>Why Build With Tech Movement</span>
-                    </div>
-
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-['Outfit']">
-                      Engineering at the Forefront of Enterprise Scale
-                    </h2>
-
-                    <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-['Plus_Jakarta_Sans']">
-                      We believe great software is born from autonomous teams, rigorous engineering standards, and high-impact digital transformation. Here is what defines life at Tech Movement:
-                    </p>
-                  </div>
-
-                  {/* 3 Pillars Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                    {/* Pillar 1 */}
-                    <div className="bg-[#050B1D]/80 border border-[#004E89]/40 hover:border-[#004E89] rounded-2xl p-6 space-y-3 relative group transition-all">
-                      <div className="w-12 h-12 rounded-xl bg-[#004E89]/25 border border-[#004E89]/40 text-[#7DD3FC] flex items-center justify-center">
-                        <Cpu className="w-6 h-6" />
+                  <div className="relative z-10 space-y-8">
+                    <div className="max-w-2xl space-y-3">
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] text-xs font-mono">
+                        <Zap className="w-3.5 h-3.5 text-[#FF6B35]" />
+                        <span>Why Build With Tech Movement</span>
                       </div>
-                      <h3 className="text-lg font-bold text-white font-['Outfit']">Frontier AI & Cloud Architecture</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
-                        Ship production LLM pipelines, autonomous agents, and multi-region Kubernetes clusters handling petabytes of transactional traffic.
+
+                      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-['Outfit']">
+                        Engineering at the Forefront of Enterprise Scale
+                      </h2>
+
+                      <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-['Plus_Jakarta_Sans']">
+                        We believe great software is born from autonomous teams, rigorous engineering standards, and high-impact digital transformation. Here is what defines life at Tech Movement:
                       </p>
                     </div>
 
-                    {/* Pillar 2 */}
-                    <div className="bg-[#050B1D]/80 border border-white/10 hover:border-white/20 rounded-2xl p-6 space-y-3 relative group transition-all">
-                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-[#F7C59F] flex items-center justify-center">
-                        <Globe2 className="w-6 h-6" />
+                    {/* 3 Pillars Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                      {/* Pillar 1 */}
+                      <div className="bg-[#050B1D]/80 border border-[#004E89]/40 hover:border-[#004E89] rounded-2xl p-6 space-y-3 relative group transition-all">
+                        <div className="w-12 h-12 rounded-xl bg-[#004E89]/25 border border-[#004E89]/40 text-[#7DD3FC] flex items-center justify-center">
+                          <Cpu className="w-6 h-6" />
+                        </div>
+                        <h3 className="text-lg font-bold text-white font-['Outfit']">Frontier AI & Cloud Architecture</h3>
+                        <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
+                          Ship production LLM pipelines, autonomous agents, and multi-region Kubernetes clusters handling petabytes of transactional traffic.
+                        </p>
                       </div>
-                      <h3 className="text-lg font-bold text-white font-['Outfit']">Global Remote-First Mindset</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
-                        Work from anywhere with asynchronous autonomy, zero micromanagement, home office allowances, and annual team summits worldwide.
-                      </p>
+
+                      {/* Pillar 2 */}
+                      <div className="bg-[#050B1D]/80 border border-white/10 hover:border-white/20 rounded-2xl p-6 space-y-3 relative group transition-all">
+                        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-[#F7C59F] flex items-center justify-center">
+                          <Globe2 className="w-6 h-6" />
+                        </div>
+                        <h3 className="text-lg font-bold text-white font-['Outfit']">Global Remote-First Mindset</h3>
+                        <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
+                          Work from anywhere with asynchronous autonomy, zero micromanagement, home office allowances, and annual team summits worldwide.
+                        </p>
+                      </div>
+
+                      {/* Pillar 3 */}
+                      <div className="bg-[#050B1D]/80 border border-[#FF6B35]/30 hover:border-[#FF6B35]/60 rounded-2xl p-6 space-y-3 relative group transition-all">
+                        <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] flex items-center justify-center">
+                          <TrendingUp className="w-6 h-6" />
+                        </div>
+                        <h3 className="text-lg font-bold text-white font-['Outfit']">Uncapped Growth & Equity</h3>
+                        <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
+                          Competitive top-tier compensation bands, aggressive equity grants, 401(k) matching, and dedicated weekly innovation research time.
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Pillar 3 */}
-                    <div className="bg-[#050B1D]/80 border border-[#FF6B35]/30 hover:border-[#FF6B35]/60 rounded-2xl p-6 space-y-3 relative group transition-all">
-                      <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] flex items-center justify-center">
-                        <TrendingUp className="w-6 h-6" />
+                    {/* Fast CTA */}
+                    <div className="pt-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex -space-x-2">
+                          <div className="w-8 h-8 rounded-full bg-[#FF6B35]/30 border border-[#FF6B35]/50 flex items-center justify-center text-[10px] font-bold text-[#F7C59F]">TM</div>
+                          <div className="w-8 h-8 rounded-full bg-[#004E89]/40 border border-[#004E89]/60 flex items-center justify-center text-[10px] font-bold text-[#7DD3FC]">AI</div>
+                          <div className="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-[10px] font-bold text-emerald-200">OPS</div>
+                        </div>
+                        <span className="text-xs text-slate-300 font-mono">
+                          Over <strong className="text-[#F7C59F]">{applications.length + 42}</strong> builders evaluated this month
+                        </span>
                       </div>
-                      <h3 className="text-lg font-bold text-white font-['Outfit']">Uncapped Growth & Equity</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
-                        Competitive top-tier compensation bands, aggressive equity grants, 401(k) matching, and dedicated weekly innovation research time.
-                      </p>
-                    </div>
-                  </div>
 
-                  {/* Fast CTA */}
-                  <div className="pt-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex -space-x-2">
-                        <div className="w-8 h-8 rounded-full bg-[#FF6B35]/30 border border-[#FF6B35]/50 flex items-center justify-center text-[10px] font-bold text-[#F7C59F]">TM</div>
-                        <div className="w-8 h-8 rounded-full bg-[#004E89]/40 border border-[#004E89]/60 flex items-center justify-center text-[10px] font-bold text-[#7DD3FC]">AI</div>
-                        <div className="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-[10px] font-bold text-emerald-200">OPS</div>
-                      </div>
-                      <span className="text-xs text-slate-300 font-mono">
-                        Over <strong className="text-[#F7C59F]">{applications.length + 42}</strong> builders evaluated this month
-                      </span>
+                      <a
+                        href="#job-listings-section"
+                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-[#FF6B35]/25 transition-all"
+                      >
+                        Browse Open Positions <ArrowRight className="w-3.5 h-3.5" />
+                      </a>
                     </div>
-
-                    <a
-                      href="#job-listings-section"
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-[#FF6B35]/25 transition-all"
-                    >
-                      Browse Open Positions <ArrowRight className="w-3.5 h-3.5" />
-                    </a>
                   </div>
                 </div>
-              </div>
-            </section>
-          </div>
-        ) : !recruiterUser ? (
-          /* Recruiter Security Access Gate - Client or unauthorized users are blocked */
-          <RecruiterAuthGate
-            onAuthenticated={(user) => setRecruiterUser(user)}
-            onCancel={() => setCurrentView('careers')}
-          />
-        ) : (
-          /* Protected Recruiter Admin Dashboard View */
-          <AdminDashboard
-            applications={applications}
-            jobs={jobs}
-            currentUser={recruiterUser}
-            onSignOut={handleRecruiterSignOut}
+              </section>
+            </div>
+          ) : !recruiterUser ? (
+            /* Recruiter Security Access Gate - Client or unauthorized users are blocked */
+            <RecruiterAuthGate
+              onAuthenticated={(user) => setRecruiterUser(user)}
+              onCancel={() => setCurrentView('careers')}
+            />
+          ) : (
+            /* Protected Recruiter Admin Dashboard View */
+            <AdminDashboard
+              applications={applications}
+              jobs={jobs}
+              currentUser={recruiterUser}
+              onSignOut={handleRecruiterSignOut}
+            />
+          )}
+        </main>
+
+        {/* Footer */}
+        <Footer
+          onOpenRecruiter={() => setCurrentView('admin')}
+          onOpenTracker={() => setIsTrackerOpen(true)}
+        />
+
+        {/* Job Detail Modal */}
+        {selectedJobForDetail && (
+          <JobDetailModal
+            job={selectedJobForDetail}
+            isOpen={Boolean(selectedJobForDetail)}
+            onClose={() => setSelectedJobForDetail(null)}
+            onApply={(job) => {
+              setSelectedJobForDetail(null);
+              setSelectedJobForApply(job);
+            }}
           />
         )}
-      </main>
 
-      {/* Footer */}
-      <Footer
-        onOpenRecruiter={() => setCurrentView('admin')}
-        onOpenTracker={() => setIsTrackerOpen(true)}
-      />
+        {/* Application Form Modal */}
+        {selectedJobForApply && (
+          <ApplicationModal
+            job={selectedJobForApply}
+            isOpen={Boolean(selectedJobForApply)}
+            onClose={() => setSelectedJobForApply(null)}
+          />
+        )}
 
-      {/* Job Detail Modal */}
-      {selectedJobForDetail && (
-        <JobDetailModal
-          job={selectedJobForDetail}
-          isOpen={Boolean(selectedJobForDetail)}
-          onClose={() => setSelectedJobForDetail(null)}
-          onApply={(job) => {
-            setSelectedJobForDetail(null);
-            setSelectedJobForApply(job);
-          }}
+        {/* Application Status Lookup Modal */}
+        <ApplicationTrackerModal
+          isOpen={isTrackerOpen}
+          onClose={() => setIsTrackerOpen(false)}
+          applications={applications}
         />
-      )}
-
-      {/* Application Form Modal */}
-      {selectedJobForApply && (
-        <ApplicationModal
-          job={selectedJobForApply}
-          isOpen={Boolean(selectedJobForApply)}
-          onClose={() => setSelectedJobForApply(null)}
-        />
-      )}
-
-      {/* Application Status Lookup Modal */}
-      <ApplicationTrackerModal
-        isOpen={isTrackerOpen}
-        onClose={() => setIsTrackerOpen(false)}
-        applications={applications}
-      />
-    </div>
+      </div>
+    </DeviceFrameWrapper>
   );
 }
 

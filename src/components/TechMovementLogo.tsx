@@ -40,7 +40,7 @@ export const TechMovementLogo: React.FC<TechMovementLogoProps> = ({
         />
 
         <img
-          src="/logo.png"
+          src="./logo.png"
           alt="Tech Movement Logo"
           style={{ width: dimensions.iconWidth, height: dimensions.iconHeight }}
           className="relative z-10 object-contain filter drop-shadow-[0_6px_14px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-300"

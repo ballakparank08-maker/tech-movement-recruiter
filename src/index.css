@@ -107,3 +107,24 @@
     linear-gradient(to bottom, rgba(0, 78, 137, 0.05) 1px, transparent 1px);
 }
 
+/* Responsive Viewport & Container Scaling for Structured Mobile/Tablet Preview */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
+/* Horizontal scrollable wrapper for wide data tables on small screens */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent layout breaking or collapsing on small screens */
+@media (max-width: 640px) {
+  .auto-tablet-viewport {
+    min-width: 680px;
+  }
+}
+
