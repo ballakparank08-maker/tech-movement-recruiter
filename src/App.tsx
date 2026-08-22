@@ -31,8 +31,10 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { RecruiterAuthGate } from './components/RecruiterAuthGate';
 import { Footer } from './components/Footer';
 import { DeviceFrameWrapper } from './components/DeviceFrameWrapper';
+import { useLanguage } from './context/LanguageContext';
 
 export default function App() {
+  const { t } = useLanguage();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [currentView, setCurrentView] = useState<'careers' | 'admin'>('careers');
@@ -124,15 +126,15 @@ export default function App() {
                     <div className="max-w-2xl space-y-3">
                       <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] text-xs font-mono">
                         <Zap className="w-3.5 h-3.5 text-[#FF6B35]" />
-                        <span>Why Build With Tech Movement</span>
+                        <span>{t.culture.badge}</span>
                       </div>
 
                       <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-['Outfit']">
-                        Engineering at the Forefront of Enterprise Scale
+                        {t.culture.title}
                       </h2>
 
                       <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-['Plus_Jakarta_Sans']">
-                        We believe great software is born from autonomous teams, rigorous engineering standards, and high-impact digital transformation. Here is what defines life at Tech Movement:
+                        {t.culture.subtitle}
                       </p>
                     </div>
 
@@ -143,9 +145,9 @@ export default function App() {
                         <div className="w-12 h-12 rounded-xl bg-[#004E89]/25 border border-[#004E89]/40 text-[#7DD3FC] flex items-center justify-center">
                           <Cpu className="w-6 h-6" />
                         </div>
-                        <h3 className="text-lg font-bold text-white font-['Outfit']">Frontier AI & Cloud Architecture</h3>
+                        <h3 className="text-lg font-bold text-white font-['Outfit']">{t.culture.pillar1Title}</h3>
                         <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
-                          Ship production LLM pipelines, autonomous agents, and multi-region Kubernetes clusters handling petabytes of transactional traffic.
+                          {t.culture.pillar1Desc}
                         </p>
                       </div>
 
@@ -154,9 +156,9 @@ export default function App() {
                         <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-[#F7C59F] flex items-center justify-center">
                           <Globe2 className="w-6 h-6" />
                         </div>
-                        <h3 className="text-lg font-bold text-white font-['Outfit']">Global Remote-First Mindset</h3>
+                        <h3 className="text-lg font-bold text-white font-['Outfit']">{t.culture.pillar2Title}</h3>
                         <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
-                          Work from anywhere with asynchronous autonomy, zero micromanagement, home office allowances, and annual team summits worldwide.
+                          {t.culture.pillar2Desc}
                         </p>
                       </div>
 
@@ -165,9 +167,9 @@ export default function App() {
                         <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] flex items-center justify-center">
                           <TrendingUp className="w-6 h-6" />
                         </div>
-                        <h3 className="text-lg font-bold text-white font-['Outfit']">Uncapped Growth & Equity</h3>
+                        <h3 className="text-lg font-bold text-white font-['Outfit']">{t.culture.pillar3Title}</h3>
                         <p className="text-xs text-slate-400 leading-relaxed font-['Plus_Jakarta_Sans']">
-                          Competitive top-tier compensation bands, aggressive equity grants, 401(k) matching, and dedicated weekly innovation research time.
+                          {t.culture.pillar3Desc}
                         </p>
                       </div>
                     </div>
@@ -181,7 +183,7 @@ export default function App() {
                           <div className="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-[10px] font-bold text-emerald-200">OPS</div>
                         </div>
                         <span className="text-xs text-slate-300 font-mono">
-                          Over <strong className="text-[#F7C59F]">{applications.length + 42}</strong> builders evaluated this month
+                          {t.culture.evaluatedStat}
                         </span>
                       </div>
 
@@ -189,7 +191,7 @@ export default function App() {
                         href="#job-listings-section"
                         className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white text-xs font-semibold flex items-center gap-2 shadow-lg shadow-[#FF6B35]/25 transition-all"
                       >
-                        Browse Open Positions <ArrowRight className="w-3.5 h-3.5" />
+                        {t.culture.browseRoles} <ArrowRight className="w-3.5 h-3.5" />
                       </a>
                     </div>
                   </div>

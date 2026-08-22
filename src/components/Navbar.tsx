@@ -4,16 +4,13 @@ import {
   ShieldCheck, 
   Menu, 
   X, 
-  Search, 
-  Sparkles, 
-  LayoutDashboard, 
-  UserCheck, 
-  HelpCircle,
-  FileSearch,
-  Lock,
-  LogOut
+  FileSearch, 
+  Lock, 
+  LogOut 
 } from 'lucide-react';
 import { TechMovementLogo } from './TechMovementLogo';
+import { LanguageSelector } from './LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 import { RecruiterUser } from '../types';
 
 interface NavbarProps {
@@ -34,6 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSignOutRecruiter
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-40 w-full bg-[#070C1E]/85 backdrop-blur-2xl border-b border-white/10 shadow-[0_4px_25px_rgba(0,12,30,0.5)]" id="main-header-nav">
@@ -51,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-5">
             <button
               type="button"
               onClick={() => onViewChange('careers')}
@@ -61,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'text-slate-300 hover:text-[#F7C59F]'
               }`}
             >
-              <Briefcase className="w-3.5 h-3.5" /> Open Roles ({openRolesCount})
+              <Briefcase className="w-3.5 h-3.5" /> {t.nav.openRoles} ({openRolesCount})
             </button>
 
             <button
@@ -69,10 +67,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={onOpenTracker}
               className="text-xs font-semibold uppercase tracking-wider font-mono text-slate-300 hover:text-[#F7C59F] transition-colors flex items-center gap-1.5 cursor-pointer"
             >
-              <FileSearch className="w-3.5 h-3.5 text-[#38BDF8]" /> Track Application
+              <FileSearch className="w-3.5 h-3.5 text-[#38BDF8]" /> {t.nav.trackApp}
             </button>
 
-            {/* Recruiter Dashboard Toggle Button with Security State */}
+            {/* Language Selector */}
+            <LanguageSelector />
+
+            {/* Recruiter Dashboard Toggle Button */}
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -88,18 +89,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 {currentView === 'admin' ? (
                   <>
-                    <Briefcase className="w-3.5 h-3.5" /> Back to Careers
+                    <Briefcase className="w-3.5 h-3.5" /> {t.nav.backToCareers}
                   </>
                 ) : (
                   <>
                     {recruiterUser ? (
                       <>
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Recruiter
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> {t.nav.recruiterPortal}
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                       </>
                     ) : (
                       <>
-                        <Lock className="w-3.5 h-3.5 text-[#FF6B35]" /> Recruiter
+                        <Lock className="w-3.5 h-3.5 text-[#FF6B35]" /> {t.nav.recruiterPortal}
                       </>
                     )}
                   </>
@@ -110,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   type="button"
                   onClick={onSignOutRecruiter}
-                  title="Lock Recruiter Session"
+                  title={t.nav.signOut}
                   className="p-2 rounded-xl bg-white/5 hover:bg-rose-500/20 text-slate-400 hover:text-rose-300 border border-white/10 transition-colors cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -119,8 +120,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </nav>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-2">
+            <LanguageSelector />
+
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -148,7 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <span className="flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-[#38BDF8]" /> Open Positions
+                <Briefcase className="w-4 h-4 text-[#38BDF8]" /> {t.nav.openRoles}
               </span>
               <span className="px-2 py-0.5 rounded-full text-xs font-mono bg-[#FF6B35]/20 text-[#F7C59F]">
                 {openRolesCount}
@@ -163,7 +166,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-[#0A1128] flex items-center gap-2"
             >
-              <FileSearch className="w-4 h-4 text-[#38BDF8]" /> Track Application Status
+              <FileSearch className="w-4 h-4 text-[#38BDF8]" /> {t.nav.trackApp}
             </button>
 
             <button
@@ -181,12 +184,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               {recruiterUser ? (
                 <>
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  {currentView === 'admin' ? 'Exit Recruiter Portal' : 'Recruiter'}
+                  {currentView === 'admin' ? t.nav.backToCareers : t.nav.recruiterPortal}
                 </>
               ) : (
                 <>
                   <Lock className="w-4 h-4 text-[#FF6B35]" />
-                  {currentView === 'admin' ? 'Exit Recruiter Portal' : 'Recruiter'}
+                  {currentView === 'admin' ? t.nav.backToCareers : t.nav.recruiterPortal}
                 </>
               )}
             </button>

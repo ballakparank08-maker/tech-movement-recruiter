@@ -1,19 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Search, 
-  Filter, 
-  MapPin, 
-  Briefcase, 
   Sparkles, 
-  SlidersHorizontal, 
   X, 
-  Building2, 
-  ChevronDown, 
-  Layers,
   ArrowUpDown
 } from 'lucide-react';
-import { Job, JobDepartment, WorkLocation, ExperienceLevel } from '../types';
+import { Job } from '../types';
 import { JobCard } from './JobCard';
+import { useLanguage } from '../context/LanguageContext';
 
 interface JobListingsProps {
   jobs: Job[];
@@ -21,42 +15,40 @@ interface JobListingsProps {
   onApplyJob: (job: Job) => void;
 }
 
-const DEPARTMENTS: { label: string; value: string }[] = [
-  { label: 'All Roles', value: 'all' },
-  { label: 'AI & ML', value: 'AI & Machine Learning' },
-  { label: 'Engineering', value: 'Engineering' },
-  { label: 'Cloud & DevOps', value: 'Cloud & DevOps' },
-  { label: 'Cybersecurity', value: 'Cybersecurity' },
-  { label: 'Product & Design', value: 'Product & Design' },
-  { label: 'Data & Analytics', value: 'Data & Analytics' }
-];
-
 export const JobListings: React.FC<JobListingsProps> = ({
   jobs,
   onSelectJob,
   onApplyJob
 }) => {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDept, setSelectedDept] = useState('all');
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [selectedLevel, setSelectedLevel] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'salary'>('newest');
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const departments: { label: string; value: string }[] = [
+    { label: t.hero.allRoles, value: 'all' },
+    { label: t.hero.aiData, value: 'AI & Machine Learning' },
+    { label: t.hero.engineering, value: 'Engineering' },
+    { label: t.hero.cloudOps, value: 'Cloud & DevOps' },
+    { label: t.hero.cybersecurity, value: 'Cybersecurity' },
+    { label: t.hero.productDesign, value: 'Product & Design' },
+    { label: 'Data & Analytics', value: 'Data & Analytics' }
+  ];
 
   // Filtered & Sorted Jobs
   const filteredJobs = useMemo(() => {
     return jobs
       .filter((job) => {
-        if (!job.isOpen) return false;
-
-        // Search text matching title, description, skills, location
+        // Search query
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase();
           const matchTitle = job.title.toLowerCase().includes(q);
           const matchDesc = job.description.toLowerCase().includes(q);
           const matchLoc = job.location.toLowerCase().includes(q);
-          const matchSkills = job.techStack?.some((t) => t.toLowerCase().includes(q));
+          const matchSkills = job.techStack.some((s) => s.toLowerCase().includes(q));
           if (!matchTitle && !matchDesc && !matchLoc && !matchSkills) return false;
         }
 
@@ -65,7 +57,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
           return false;
         }
 
-        // Work Location (Remote / Hybrid / Onsite)
+        // Work Location
         if (selectedLocation !== 'all' && job.workLocation !== selectedLocation) {
           return false;
         }
@@ -75,7 +67,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
           return false;
         }
 
-        // Job Type (Full-time / Contract etc)
+        // Job Type
         if (selectedType !== 'all' && job.type !== selectedType) {
           return false;
         }
@@ -84,7 +76,6 @@ export const JobListings: React.FC<JobListingsProps> = ({
       })
       .sort((a, b) => {
         if (sortBy === 'salary') {
-          // rough salary sort extract numbers
           const getNum = (s: string) => {
             const m = s.match(/\$([0-9,]+)/);
             return m ? parseInt(m[1].replace(/,/g, ''), 10) : 0;
@@ -122,21 +113,21 @@ export const JobListings: React.FC<JobListingsProps> = ({
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] text-xs font-mono">
             <Sparkles className="w-3.5 h-3.5 text-[#F7C59F]" />
-            <span>Open Engineering & Leadership Roles</span>
+            <span>{t.hero.badge}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight font-['Outfit'] leading-tight">
-            Shape the Future of <br className="hidden sm:inline" />
+            {t.hero.titleMain} <br className="hidden sm:inline" />
             <span 
               className="bg-gradient-to-r from-[#FF6B35] via-[#F7C59F] to-[#38BDF8] bg-clip-text text-transparent"
               style={{ filter: 'drop-shadow(0 0 24px rgba(255, 107, 53, 0.35))' }}
             >
-              Digital Transformation
+              {t.hero.titleHighlight}
             </span>
           </h1>
 
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-            Tech Movement builds high-impact enterprise AI platforms, resilient cloud architectures, and next-generation digital products. Explore our open positions and join world-class talent.
+          <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-['Plus_Jakarta_Sans']">
+            {t.hero.subtitle}
           </p>
 
           {/* Quick Search Input */}
@@ -145,10 +136,10 @@ export const JobListings: React.FC<JobListingsProps> = ({
               <Search className="w-5 h-5 text-[#F7C59F]/70 ml-3 flex-shrink-0" />
               <input
                 type="text"
-                placeholder="Search by job title, skill (e.g. React, Kubernetes, AI), or location..."
+                placeholder={t.hero.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-400 outline-none"
+                className="w-full bg-transparent px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-400 outline-none font-['Plus_Jakarta_Sans']"
               />
               {searchQuery && (
                 <button
@@ -168,7 +159,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
       <div className="space-y-4">
         {/* Department Pills Scrollable Row */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          {DEPARTMENTS.map((dept) => {
+          {departments.map((dept) => {
             const isActive = selectedDept === dept.value;
             return (
               <button
@@ -196,7 +187,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
                 onClick={resetFilters}
                 className="px-3 py-2 rounded-xl text-xs text-[#FF7F4E] hover:text-[#FF6B35] bg-[#FF6B35]/15 border border-[#FF6B35]/30 flex items-center gap-1 transition-colors"
               >
-                <X className="w-3.5 h-3.5" /> Clear Filters ({activeFiltersCount})
+                <X className="w-3.5 h-3.5" /> {t.hero.clearFilters} ({activeFiltersCount})
               </button>
             )}
           </div>
@@ -204,7 +195,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
           {/* Right Sort By & Count */}
           <div className="flex items-center gap-3 text-xs text-slate-300 font-mono">
             <span>
-              Showing <strong className="text-[#F7C59F] font-semibold">{filteredJobs.length}</strong> of {jobs.length} roles
+              {t.hero.showingRoles} <strong className="text-[#F7C59F] font-semibold">{filteredJobs.length}</strong> {t.hero.of} {jobs.length} {t.hero.roles}
             </span>
 
             <div className="flex items-center gap-1.5 bg-[#070C1E] px-2.5 py-1.5 rounded-xl border border-white/10">
@@ -214,8 +205,8 @@ export const JobListings: React.FC<JobListingsProps> = ({
                 onChange={(e) => setSortBy(e.target.value as any)}
                 className="bg-transparent text-xs text-slate-200 outline-none cursor-pointer"
               >
-                <option value="newest" className="bg-[#070C1E]">Newest First</option>
-                <option value="salary" className="bg-[#070C1E]">Highest Salary</option>
+                <option value="newest" className="bg-[#070C1E]">{t.hero.newestFirst}</option>
+                <option value="salary" className="bg-[#070C1E]">{t.hero.highestSalary}</option>
               </select>
             </div>
           </div>
@@ -229,29 +220,19 @@ export const JobListings: React.FC<JobListingsProps> = ({
             <JobCard
               key={job.id}
               job={job}
-              onSelectJob={onSelectJob}
-              onApplyJob={onApplyJob}
+              onSelect={onSelectJob}
+              onApply={onApplyJob}
             />
           ))}
         </div>
       ) : (
-        /* Empty State */
-        <div className="text-center py-16 px-4 bg-[#090d16] border border-slate-800 rounded-3xl space-y-4">
-          <div className="w-16 h-16 rounded-full bg-slate-800/80 text-slate-400 flex items-center justify-center mx-auto">
-            <Search className="w-7 h-7" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-lg font-bold text-white font-['Outfit']">No matching roles found</h3>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              We couldn’t find any positions matching your current search parameters. Try clearing filters or broadening your terms.
-            </p>
-          </div>
+        <div className="text-center py-16 bg-[#0A1128]/50 rounded-3xl border border-white/10 space-y-3">
+          <p className="text-slate-400 text-sm">No jobs match your search filters.</p>
           <button
-            type="button"
             onClick={resetFilters}
-            className="px-5 py-2.5 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-semibold hover:bg-cyan-500/30 transition-colors"
+            className="text-xs text-[#FF6B35] font-semibold hover:underline"
           >
-            Reset All Filters
+            {t.hero.clearFilters}
           </button>
         </div>
       )}

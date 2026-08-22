@@ -15,6 +15,7 @@ import {
 } from '../services/authService';
 import { RecruiterUser } from '../types';
 import { TechMovementLogo } from './TechMovementLogo';
+import { useLanguage } from '../context/LanguageContext';
 
 interface RecruiterAuthGateProps {
   onAuthenticated: (user: RecruiterUser) => void;
@@ -27,6 +28,7 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
   onReturnToCareers,
   onCancel
 }) => {
+  const { t } = useLanguage();
   const [passcode, setPasscode] = useState('');
   const [showPasscode, setShowPasscode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +62,6 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
     setIsLoading(true);
     setErrorMessage(null);
 
-    // Automatically binds pre-configured super-admin credentials under the hood
     const res = await signInWithSecurityPasscode(
       passcode, 
       PRIMARY_ADMIN_EMAIL, 
@@ -90,7 +91,7 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
           <div className="text-center space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF6B35]/15 border border-[#FF6B35]/30 text-[#FF7F4E] text-xs font-mono font-semibold uppercase tracking-wider">
               <Lock className="w-3.5 h-3.5 text-[#FF6B35]" />
-              <span>Restricted Recruiter Access</span>
+              <span>{t.authGate.badge}</span>
             </div>
 
             <div className="flex justify-center py-2">
@@ -98,10 +99,10 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-['Outfit'] tracking-tight">
-              Recruiter Portal
+              {t.authGate.title}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed font-['Plus_Jakarta_Sans']">
-              Confidential candidate evaluation pipeline & executive portal.
+              {t.authGate.subtitle}
             </p>
           </div>
 
@@ -122,12 +123,12 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
             <form onSubmit={handlePasscodeSignIn} className="space-y-4">
               <div className="space-y-1.5">
                 <label className="block text-xs font-semibold text-slate-300 font-mono">
-                  Master Security Key / Passcode
+                  {t.authGate.passcodeLabel}
                 </label>
                 <div className="relative">
                   <input
                     type={showPasscode ? 'text' : 'password'}
-                    placeholder="Enter Security Key or Passcode"
+                    placeholder={t.authGate.passcodePlaceholder}
                     value={passcode}
                     onChange={(e) => setPasscode(e.target.value)}
                     className="w-full bg-[#070C1E] border border-white/10 focus:border-[#FF6B35] rounded-xl px-3.5 py-3 text-xs text-white placeholder-slate-500 outline-none pr-10 font-mono transition-colors"
@@ -149,7 +150,7 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
                 id="recruiter-passcode-submit-btn"
               >
                 <Key className="w-3.5 h-3.5" />
-                <span>{isLoading ? 'Verifying Authorization...' : 'Authorize Access'}</span>
+                <span>{isLoading ? t.authGate.verifying : t.authGate.authorizeBtn}</span>
               </button>
             </form>
 
@@ -159,7 +160,7 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
                 <div className="w-full border-t border-white/10" />
               </div>
               <span className="relative z-10 px-3 bg-[#050B1D] text-[10px] text-slate-400 font-mono uppercase tracking-widest">
-                Or Continue With
+                {t.authGate.orContinueWith}
               </span>
             </div>
 
@@ -193,7 +194,7 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
                   />
                 </svg>
               )}
-              <span>Sign in with Google Workspace</span>
+              <span>{t.authGate.googleSSO}</span>
             </button>
           </div>
 
@@ -204,12 +205,12 @@ export const RecruiterAuthGate: React.FC<RecruiterAuthGateProps> = ({
               onClick={handleReturn}
               className="text-slate-400 hover:text-white flex items-center gap-1.5 font-mono cursor-pointer transition-colors"
             >
-              <ArrowLeft className="w-3.5 h-3.5" /> Return to Public Careers
+              <ArrowLeft className="w-3.5 h-3.5" /> {t.authGate.returnToCareers}
             </button>
 
             <div className="flex items-center gap-1.5 text-[11px] text-slate-500 font-mono">
               <ShieldCheck className="w-3.5 h-3.5 text-[#FF7F4E]" />
-              <span>TLS 256-Bit & Firestore Security Guard</span>
+              <span>{t.authGate.securityBadge}</span>
             </div>
           </div>
         </div>
