@@ -155,7 +155,7 @@ const translations: Record<Language, Translations> = {
     },
     modal: {
       applyNow: 'Apply for Position',
-      jobDetails: 'Job Specifications & Overview',
+      jobDetails: 'Role Summary',
       responsibilities: 'Key Responsibilities',
       requirements: 'Requirements & Qualifications',
       benefits: 'Perks & Benefits',
@@ -242,7 +242,7 @@ const translations: Record<Language, Translations> = {
     },
     modal: {
       applyNow: 'Lamar Posisi Ini',
-      jobDetails: 'Spesifikasi & Ringkasan Pekerjaan',
+      jobDetails: 'Ringkasan Peran',
       responsibilities: 'Tanggung Jawab Utama',
       requirements: 'Persyaratan & Kualifikasi',
       benefits: 'Fasilitas & Keuntungan',
@@ -329,7 +329,7 @@ const translations: Record<Language, Translations> = {
     },
     modal: {
       applyNow: '申请此职位',
-      jobDetails: '职位详情与概述',
+      jobDetails: '职位概要',
       responsibilities: '核心职责',
       requirements: '任职要求与资格',
       benefits: '福利待遇',
