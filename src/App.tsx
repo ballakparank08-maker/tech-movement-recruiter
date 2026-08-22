@@ -92,8 +92,9 @@ export default function App() {
   const openRolesCount = jobs.filter((j) => j.isOpen).length;
 
   return (
-    <DeviceFrameWrapper>
-      <div className="min-h-screen bg-[#070C1E] text-slate-100 flex flex-col selection:bg-[#FF6B35]/30 selection:text-[#F7C59F] bg-tech-grid">
+    <>
+      <DeviceFrameWrapper>
+        <div className="min-h-screen bg-[#070C1E] text-slate-100 flex flex-col selection:bg-[#FF6B35]/30 selection:text-[#F7C59F] bg-tech-grid">
         {/* Top Main Navbar */}
         <Navbar
           currentView={currentView}
@@ -220,37 +221,36 @@ export default function App() {
           onOpenRecruiter={() => setCurrentView('admin')}
           onOpenTracker={() => setIsTrackerOpen(true)}
         />
-
-        {/* Job Detail Modal */}
-        {selectedJobForDetail && (
-          <JobDetailModal
-            job={selectedJobForDetail}
-            isOpen={Boolean(selectedJobForDetail)}
-            onClose={() => setSelectedJobForDetail(null)}
-            onApply={(job) => {
-              setSelectedJobForDetail(null);
-              setSelectedJobForApply(job);
-            }}
-          />
-        )}
-
-        {/* Application Form Modal */}
-        {selectedJobForApply && (
-          <ApplicationModal
-            job={selectedJobForApply}
-            isOpen={Boolean(selectedJobForApply)}
-            onClose={() => setSelectedJobForApply(null)}
-          />
-        )}
-
-        {/* Application Status Lookup Modal */}
-        <ApplicationTrackerModal
-          isOpen={isTrackerOpen}
-          onClose={() => setIsTrackerOpen(false)}
-          applications={applications}
-        />
       </div>
     </DeviceFrameWrapper>
+
+    {/* Root Level Floating Pop-up Modals (unconstrained by device frame scale/overflow) */}
+    {selectedJobForDetail && (
+      <JobDetailModal
+        job={selectedJobForDetail}
+        isOpen={Boolean(selectedJobForDetail)}
+        onClose={() => setSelectedJobForDetail(null)}
+        onApply={(job) => {
+          setSelectedJobForDetail(null);
+          setSelectedJobForApply(job);
+        }}
+      />
+    )}
+
+    {selectedJobForApply && (
+      <ApplicationModal
+        job={selectedJobForApply}
+        isOpen={Boolean(selectedJobForApply)}
+        onClose={() => setSelectedJobForApply(null)}
+      />
+    )}
+
+    <ApplicationTrackerModal
+      isOpen={isTrackerOpen}
+      onClose={() => setIsTrackerOpen(false)}
+      applications={applications}
+    />
+  </>
   );
 }
 
