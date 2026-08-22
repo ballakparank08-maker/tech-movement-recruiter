@@ -100,10 +100,10 @@ const translations: Record<Language, Translations> = {
       signOut: 'Lock Recruiter Session'
     },
     hero: {
-      badge: 'Open Engineering & Leadership Roles',
-      titleMain: 'Shape the Future of',
+      badge: 'Elite Digital Roles & Industry-Leading Rewards',
+      titleMain: 'Build Your Career at the Forefront of',
       titleHighlight: 'Digital Transformation',
-      subtitle: 'Tech Movement builds high-impact enterprise AI platforms, resilient cloud architectures, and next-generation digital products. Explore our open positions and join world-class talent.',
+      subtitle: 'Tech Movement builds mission-critical enterprise systems, resilient cloud architectures, and scalable digital products. Explore our open positions and join world-class talent across all disciplines.',
       searchPlaceholder: 'Search by job title, skill (e.g. React, Kubernetes, AI), or location...',
       showingRoles: 'Showing',
       of: 'of',
@@ -187,10 +187,10 @@ const translations: Record<Language, Translations> = {
       signOut: 'Kunci Sesi Rekrutmen'
     },
     hero: {
-      badge: 'Lowongan Rekayasa & Kepemimpinan',
-      titleMain: 'Bentuk Masa Depan',
+      badge: 'Peran Digital Elit & Penghargaan Terdepan di Industri',
+      titleMain: 'Bangun Karir Anda di Garis Depan',
       titleHighlight: 'Transformasi Digital',
-      subtitle: 'Tech Movement membangun platform AI enterprise berdampak tinggi, arsitektur cloud tangguh, dan produk digital generasi mendatang. Jelajahi lowongan kami dan bergabunglah dengan talenta kelas dunia.',
+      subtitle: 'Tech Movement membangun sistem enterprise misi-kritis, arsitektur cloud tangguh, dan produk digital berskala besar. Jelajahi posisi terbuka kami dan bergabunglah dengan talenta kelas dunia di semua disiplin ilmu.',
       searchPlaceholder: 'Cari berdasarkan posisi, keahlian (misal: React, Kubernetes, AI), atau lokasi...',
       showingRoles: 'Menampilkan',
       of: 'dari',
@@ -274,10 +274,10 @@ const translations: Record<Language, Translations> = {
       signOut: '锁定招聘人员会话'
     },
     hero: {
-      badge: '开放工程与领导力职位',
-      titleMain: '塑造成就未来',
+      badge: '精英数字职位与行业领先回报',
+      titleMain: '站在最前沿打造您的职业生涯：',
       titleHighlight: '数字化转型',
-      subtitle: 'Tech Movement 致力于构建高影响力的企业级人工智能平台、弹性云架构和下一代数字产品。探索我们的开放职位，加入世界顶尖团队。',
+      subtitle: 'Tech Movement 专注于构建任务关键型企业系统、弹性云架构与可扩展数字产品。探索我们的开放职位，加入涵盖各个领域的世界级顶尖人才团队。',
       searchPlaceholder: '按职位名称、技能（如 React、Kubernetes、AI）或工作地点搜索...',
       showingRoles: '显示',
       of: '共',
