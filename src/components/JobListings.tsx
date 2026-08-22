@@ -188,39 +188,8 @@ export const JobListings: React.FC<JobListingsProps> = ({
 
         {/* Secondary Filter Controls */}
         <div className="flex items-center justify-between flex-wrap gap-3 bg-[#0A1128]/70 backdrop-blur-xl p-3.5 rounded-2xl border border-white/10">
-          {/* Left filters (Location, Level, Type) */}
+          {/* Left filters */}
           <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-            {/* Location dropdown */}
-            <div className="relative">
-              <select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
-                className="bg-[#070C1E] border border-white/10 text-xs text-slate-200 rounded-xl px-3 py-2 outline-none focus:border-[#FF6B35] pr-8 cursor-pointer appearance-none"
-              >
-                <option value="all">All Locations (Remote / Hybrid)</option>
-                <option value="Remote">Remote Only</option>
-                <option value="Hybrid">Hybrid</option>
-                <option value="On-site">On-site</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none" />
-            </div>
-
-            {/* Experience level */}
-            <div className="relative">
-              <select
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value)}
-                className="bg-[#070C1E] border border-white/10 text-xs text-slate-200 rounded-xl px-3 py-2 outline-none focus:border-[#FF6B35] pr-8 cursor-pointer appearance-none"
-              >
-                <option value="all">All Experience Levels</option>
-                <option value="Senior">Senior Level</option>
-                <option value="Lead / Principal">Lead / Principal</option>
-                <option value="Mid-Level">Mid-Level</option>
-                <option value="Entry-level">Entry-level</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none" />
-            </div>
-
             {activeFiltersCount > 0 && (
               <button
                 type="button"
