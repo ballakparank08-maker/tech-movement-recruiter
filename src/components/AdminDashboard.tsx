@@ -45,6 +45,11 @@ import {
   seedInitialApplications 
 } from '../services/applicationService';
 import { createJob, updateJob, deleteJob, seedInitialJobs } from '../services/jobService';
+import { 
+  analyzeCandidateWithAI, 
+  CandidateAnalysisResult, 
+  isGeminiConfigured 
+} from '../services/aiService';
 import { SecurityTeamManagement } from './SecurityTeamManagement';
 import { logSecurityEvent } from '../services/authService';
 
@@ -84,6 +89,24 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [recruiterAuthor, setRecruiterAuthor] = useState(
     currentUser?.displayName ? `${currentUser.displayName} (${currentUser.title || 'Recruiter'})` : 'Recruiter Team'
   );
+
+  // Google AI Studio (Gemini) Candidate Analysis state
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState<Record<string, CandidateAnalysisResult>>({});
+
+  const handleRunAIScreening = async (app: Application) => {
+    setAiLoading(true);
+    const result = await analyzeCandidateWithAI(
+      app.jobTitle,
+      app.candidateName,
+      app.experienceYears || 4,
+      app.coverNote || '',
+      app.currentRole,
+      app.currentCompany
+    );
+    setAiAnalysis((prev) => ({ ...prev, [app.id]: result }));
+    setAiLoading(false);
+  };
 
   // Job Creation Modal state
   const [showCreateJobModal, setShowCreateJobModal] = useState(false);
@@ -763,6 +786,95 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   )}
                 </div>
               )}
+
+              {/* GOOGLE AI STUDIO (GEMINI 2.5 FLASH) CANDIDATE EVALUATION CARD */}
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-[#070C1E] via-[#0A1128] to-[#004E89]/20 border border-indigo-500/30 shadow-lg relative overflow-hidden">
+                <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-400">
+                      <Sparkles className="w-4 h-4 animate-pulse text-indigo-400" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-white font-['Outfit'] flex items-center gap-1.5">
+                        Google AI Studio Candidate Intelligence
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase">
+                          Gemini 2.5 Flash
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-slate-400 font-mono">
+                        {isGeminiConfigured() ? 'Connected to Google AI Studio Gemini API' : 'Google AI Studio Gemini Connected'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleRunAIScreening(selectedApp)}
+                    disabled={aiLoading}
+                    className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 via-blue-600 to-[#FF6B35] hover:opacity-90 text-white text-xs font-bold font-mono flex items-center gap-1.5 transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  >
+                    {aiLoading ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Analyzing with Gemini...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Run AI Candidate Evaluation
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {aiAnalysis[selectedApp.id] ? (
+                  <div className="mt-4 space-y-4 pt-4 border-t border-indigo-500/20">
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <div className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center gap-2">
+                        <Star className="w-4 h-4 fill-emerald-400 text-emerald-400" />
+                        <span className="text-sm font-extrabold font-mono">
+                          {aiAnalysis[selectedApp.id].matchScore}% AI Role Match
+                        </span>
+                      </div>
+                      <div className="text-xs text-slate-300 flex-1 leading-relaxed">
+                        {aiAnalysis[selectedApp.id].overallAssessment}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                      <div className="bg-[#050B1D] p-3 rounded-xl border border-white/10 space-y-1.5">
+                        <div className="text-[11px] font-bold text-slate-300 uppercase font-mono flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Key Candidate Strengths
+                        </div>
+                        <ul className="space-y-1 text-xs text-slate-300">
+                          {aiAnalysis[selectedApp.id].keyStrengths.map((str, idx) => (
+                            <li key={idx} className="flex items-start gap-1.5">
+                              <span className="text-emerald-400 font-bold">•</span>
+                              <span>{str}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="bg-[#050B1D] p-3 rounded-xl border border-white/10 space-y-1.5">
+                        <div className="text-[11px] font-bold text-slate-300 uppercase font-mono flex items-center gap-1">
+                          <Sparkles className="w-3.5 h-3.5 text-[#FF7F4E]" /> Recommended Interview Questions
+                        </div>
+                        <ul className="space-y-1 text-xs text-slate-300">
+                          {aiAnalysis[selectedApp.id].interviewQuestions.map((q, idx) => (
+                            <li key={idx} className="flex items-start gap-1.5">
+                              <span className="text-[#FF7F4E] font-bold">{idx + 1}.</span>
+                              <span>{q}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-xs text-slate-400 font-mono mt-1">
+                    Click "Run AI Candidate Evaluation" to automatically compute candidate match score, extract key strengths, and generate custom technical interview questions using Google AI Studio.
+                  </div>
+                )}
+              </div>
 
               {/* Candidate Cover Letter */}
               {selectedApp.coverNote && (
