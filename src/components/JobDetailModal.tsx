@@ -8,15 +8,13 @@ import {
   Share2, 
   Check, 
   Sparkles, 
-  Layers, 
   CheckCircle2, 
   ArrowRight,
   HeartHandshake,
-  Cpu,
-  Building2,
-  Users
+  Cpu
 } from 'lucide-react';
 import { Job } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface JobDetailModalProps {
   job: Job | null;
@@ -31,6 +29,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
   onClose,
   onApply
 }) => {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !job) return null;
@@ -41,11 +40,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const formattedDate = new Date(job.createdAt).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  const formattedDate = new Date(job.createdAt).toLocaleDateString();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto" id="job-detail-modal-overlay">
@@ -113,7 +108,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-slate-400 flex-shrink-0" />
-              <span className="truncate">Posted {formattedDate}</span>
+              <span className="truncate">{formattedDate}</span>
             </div>
           </div>
         </div>
@@ -123,9 +118,9 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
           {/* Summary */}
           <div>
             <h3 className="text-base font-bold text-white font-['Outfit'] mb-2 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#38BDF8]" /> Role Overview
+              <span className="w-2 h-2 rounded-full bg-[#38BDF8]" /> {t.modal.jobDetails}
             </h3>
-            <p className="text-slate-300 leading-relaxed bg-[#070C1E]/80 p-4 rounded-xl border border-white/10">
+            <p className="text-slate-300 leading-relaxed bg-[#070C1E]/80 p-4 rounded-xl border border-white/10 font-['Plus_Jakarta_Sans']">
               {job.description}
             </p>
           </div>
@@ -134,7 +129,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
           {job.techStack && job.techStack.length > 0 && (
             <div>
               <h3 className="text-base font-bold text-white font-['Outfit'] mb-3 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-[#38BDF8]" /> Primary Tech Stack
+                <Cpu className="w-4 h-4 text-[#38BDF8]" /> {t.modal.techStack}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {job.techStack.map((tech, i) => (
@@ -153,13 +148,13 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
           {job.responsibilities && job.responsibilities.length > 0 && (
             <div>
               <h3 className="text-base font-bold text-white font-['Outfit'] mb-3 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FF6B35]" /> What You’ll Do
+                <span className="w-2 h-2 rounded-full bg-[#FF6B35]" /> {t.modal.responsibilities}
               </h3>
               <ul className="space-y-2.5">
                 {job.responsibilities.map((resp, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B35] mt-2 flex-shrink-0" />
-                    <span className="text-slate-300">{resp}</span>
+                    <span className="text-slate-300 font-['Plus_Jakarta_Sans']">{resp}</span>
                   </li>
                 ))}
               </ul>
@@ -170,45 +165,28 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
           {job.requirements && job.requirements.length > 0 && (
             <div>
               <h3 className="text-base font-bold text-white font-['Outfit'] mb-3 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> What We’re Looking For
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> {t.modal.requirements}
               </h3>
               <ul className="space-y-2.5">
                 {job.requirements.map((req, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400/80 mt-0.5 flex-shrink-0" />
-                    <span className="text-slate-300">{req}</span>
+                    <span className="text-slate-300 font-['Plus_Jakarta_Sans']">{req}</span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Nice to have */}
-          {job.niceToHave && job.niceToHave.length > 0 && (
-            <div>
-              <h3 className="text-base font-bold text-white font-['Outfit'] mb-3 flex items-center gap-2 text-slate-300">
-                <Sparkles className="w-4 h-4 text-[#F7C59F]" /> Bonus Points
-              </h3>
-              <ul className="space-y-2">
-                {job.niceToHave.map((bonus, i) => (
-                  <li key={i} className="flex items-start gap-3 text-slate-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#F7C59F]/80 mt-2 flex-shrink-0" />
-                    <span>{bonus}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Benefits & Team Culture */}
+          {/* Benefits */}
           {job.benefits && job.benefits.length > 0 && (
             <div className="bg-gradient-to-br from-[#0A1128] to-[#120F24] p-5 rounded-xl border border-white/10 space-y-3">
               <h3 className="text-base font-bold text-white font-['Outfit'] flex items-center gap-2">
-                <HeartHandshake className="w-4 h-4 text-[#FF6B35]" /> Tech Movement Benefits & Perks
+                <HeartHandshake className="w-4 h-4 text-[#FF6B35]" /> {t.modal.benefits}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
                 {job.benefits.map((benefit, i) => (
-                  <div key={i} className="flex items-start gap-2.5 text-xs text-slate-300">
+                  <div key={i} className="flex items-start gap-2.5 text-xs text-slate-300 font-['Plus_Jakarta_Sans']">
                     <div className="w-4 h-4 rounded bg-[#004E89]/30 text-[#38BDF8] flex items-center justify-center flex-shrink-0 text-[10px] mt-0.5 font-bold">
                       ✓
                     </div>
@@ -223,8 +201,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
         {/* Modal Footer CTA */}
         <div className="p-5 sm:p-6 bg-[#070C1E] border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <span className="text-[11px] text-slate-400 block font-mono">Interested in this position?</span>
-            <span className="text-xs text-[#F7C59F] font-semibold">Join Tech Movement’s digital innovation mission</span>
+            <span className="text-[11px] text-slate-400 block font-mono">Tech Movement Innovation</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -233,7 +210,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 transition-colors border border-white/10 cursor-pointer"
             >
-              Close
+              {t.modal.close}
             </button>
             <button
               type="button"
@@ -244,7 +221,7 @@ export const JobDetailModal: React.FC<JobDetailModalProps> = ({
               className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#FF6B35] via-[#FF7F4E] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white font-semibold text-xs shadow-lg shadow-[#FF6B35]/30 flex items-center gap-2 transition-all transform hover:scale-105 cursor-pointer"
               id="job-modal-apply-btn"
             >
-              Apply for this Role <ArrowRight className="w-4 h-4" />
+              {t.modal.applyNow} <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>

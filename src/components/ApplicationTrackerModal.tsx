@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Search, CheckCircle2, Clock, Calendar, Mail, FileText, AlertCircle } from 'lucide-react';
+import { X, Search, Clock, AlertCircle } from 'lucide-react';
 import { Application } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ApplicationTrackerModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
   onClose,
   applications
 }) => {
+  const { t } = useLanguage();
   const [query, setQuery] = useState('');
   const [matchedApp, setMatchedApp] = useState<Application | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -100,8 +102,8 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
         {/* Header */}
         <div className="p-6 bg-[#050B1D] border-b border-white/10 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-white font-['Outfit']">Track Application Status</h3>
-            <p className="text-xs text-slate-400">Enter your application reference code or registered email</p>
+            <h3 className="text-lg font-bold text-white font-['Outfit']">{t.tracker.title}</h3>
+            <p className="text-xs text-slate-400 font-['Plus_Jakarta_Sans']">{t.tracker.subtitle}</p>
           </div>
           <button
             type="button"
@@ -119,7 +121,7 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               <input
                 type="text"
-                placeholder="e.g. app-17400... or your.email@domain.com"
+                placeholder={t.tracker.inputPlaceholder}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full bg-[#050B1D] border border-white/10 focus:border-[#FF6B35] rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 outline-none"
@@ -129,7 +131,7 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
               type="submit"
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white text-xs font-semibold transition-all shadow-md shadow-[#FF6B35]/20 cursor-pointer"
             >
-              Lookup
+              {t.tracker.searchBtn}
             </button>
           </form>
 
@@ -137,13 +139,13 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
             <div className="bg-[#050B1D] border border-white/10 rounded-2xl p-5 space-y-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase">Role Applied:</span>
+                  <span className="text-[10px] font-mono text-slate-400 uppercase">{t.tracker.appliedFor}:</span>
                   <h4 className="text-base font-bold text-white font-['Outfit']">{matchedApp.jobTitle}</h4>
                   <p className="text-xs text-[#FF7F4E] font-mono">{matchedApp.candidateName}</p>
                 </div>
 
                 <span className="text-[10px] font-mono text-slate-500">
-                  Applied: {new Date(matchedApp.createdAt).toLocaleDateString()}
+                  {t.tracker.submittedOn} {new Date(matchedApp.createdAt).toLocaleDateString()}
                 </span>
               </div>
 
@@ -158,7 +160,7 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
                         {details.title}
                       </h5>
                     </div>
-                    <p className="text-xs text-slate-300 leading-relaxed pl-4.5">
+                    <p className="text-xs text-slate-300 leading-relaxed pl-4.5 font-['Plus_Jakarta_Sans']">
                       {details.desc}
                     </p>
                   </div>
@@ -167,14 +169,13 @@ export const ApplicationTrackerModal: React.FC<ApplicationTrackerModalProps> = (
 
               <div className="pt-2 text-[11px] text-slate-400 flex items-center gap-1.5 font-mono">
                 <Clock className="w-3.5 h-3.5 text-[#F7C59F]" />
-                Last activity updated: {new Date(matchedApp.updatedAt).toLocaleDateString()}
+                Updated: {new Date(matchedApp.updatedAt).toLocaleDateString()}
               </div>
             </div>
           ) : hasSearched ? (
             <div className="text-center py-6 text-xs text-slate-400 space-y-1">
               <AlertCircle className="w-6 h-6 text-[#FF6B35] mx-auto mb-2" />
-              <p className="font-semibold text-slate-200">No application found for "{query}"</p>
-              <p className="text-slate-500 text-[11px]">Check your reference ID or ensure you used the same email address.</p>
+              <p className="font-semibold text-slate-200">{t.tracker.noAppsFound}</p>
             </div>
           ) : null}
         </div>

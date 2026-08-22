@@ -2,14 +2,11 @@ import React from 'react';
 import { 
   MapPin, 
   DollarSign, 
-  Briefcase, 
-  Clock, 
   Sparkles, 
   ArrowRight, 
-  CheckCircle2,
-  Users
 } from 'lucide-react';
 import { Job } from '../types';
+import { useLanguage } from '../context/LanguageContext';
 
 interface JobCardProps {
   job: Job;
@@ -22,10 +19,7 @@ export const JobCard: React.FC<JobCardProps> = ({
   onSelectJob,
   onApplyJob
 }) => {
-  const formattedDate = new Date(job.createdAt).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric'
-  });
+  const { t } = useLanguage();
 
   return (
     <div
@@ -65,11 +59,11 @@ export const JobCard: React.FC<JobCardProps> = ({
         </h3>
 
         {/* Short Summary */}
-        <p className="text-xs text-slate-300/80 line-clamp-2 leading-relaxed mb-4">
+        <p className="text-xs text-slate-300/80 line-clamp-2 leading-relaxed mb-4 font-['Plus_Jakarta_Sans']">
           {job.description}
         </p>
 
-        {/* Tech Stack Chips preview (up to 4) */}
+        {/* Tech Stack Chips preview */}
         {job.techStack && job.techStack.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">
             {job.techStack.slice(0, 4).map((tech, i) => (
@@ -112,7 +106,7 @@ export const JobCard: React.FC<JobCardProps> = ({
             className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-semibold text-center transition-colors border border-white/10 cursor-pointer"
             id={`view-details-${job.id}`}
           >
-            Role Details
+            {t.modal.jobDetails}
           </button>
 
           <button
@@ -121,7 +115,7 @@ export const JobCard: React.FC<JobCardProps> = ({
             className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#E85924] hover:from-[#FF7F4E] hover:to-[#FF6B35] text-white text-xs font-semibold text-center transition-all shadow-md shadow-[#FF6B35]/25 flex items-center justify-center gap-1 cursor-pointer"
             id={`quick-apply-${job.id}`}
           >
-            Apply Now <ArrowRight className="w-3.5 h-3.5" />
+            {t.modal.applyNow} <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
