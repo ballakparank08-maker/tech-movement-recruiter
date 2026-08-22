@@ -1,4 +1,5 @@
 import React from 'react';
+import logoImg from '../assets/logo.png';
 
 interface TechMovementLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -40,7 +41,7 @@ export const TechMovementLogo: React.FC<TechMovementLogoProps> = ({
         />
 
         <img
-          src="./logo.png"
+          src={logoImg}
           alt="Tech Movement Logo"
           style={{ width: dimensions.iconWidth, height: dimensions.iconHeight }}
           className="relative z-10 object-contain filter drop-shadow-[0_6px_14px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-300"
