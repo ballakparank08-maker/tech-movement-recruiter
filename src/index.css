@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #070C1E;
+    color: #e2e8f0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* Atmospheric Glowing Accents & Frosted Luxe Utilities */
+.tm-glow-coral {
+  box-shadow: 0 0 30px -5px rgba(255, 107, 53, 0.45), 0 0 12px -2px rgba(255, 107, 53, 0.25);
+}
+
+.tm-glow-azure {
+  box-shadow: 0 0 30px -5px rgba(0, 78, 137, 0.5), 0 0 12px -2px rgba(0, 119, 182, 0.3);
+}
+
+.tm-glow-sand {
+  box-shadow: 0 0 25px -5px rgba(247, 197, 159, 0.35);
+}
+
+.tm-glow-dual {
+  box-shadow: -10px 0 30px -5px rgba(0, 78, 137, 0.35), 10px 0 30px -5px rgba(255, 107, 53, 0.35);
+}
+
+/* Glassmorphism Frosted Luxe Card Utility */
+.frosted-luxe {
+  background: rgba(10, 17, 40, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.frosted-luxe-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.frosted-luxe-hover:hover {
+  background: rgba(13, 24, 54, 0.8);
+  border-color: rgba(255, 107, 53, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -5px rgba(0, 12, 30, 0.6), 0 0 20px -3px rgba(255, 107, 53, 0.2);
+}
+
+.tm-gradient-border {
+  position: relative;
+  background: #0A1128;
+  border-radius: 0.75rem;
+}
+
+.tm-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 78, 137, 0.7) 0%, rgba(247, 197, 159, 0.5) 50%, rgba(255, 107, 53, 0.7) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.tm-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tm-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: -4px 0 25px -4px rgba(0, 78, 137, 0.35), 4px 0 25px -4px rgba(255, 107, 53, 0.35);
+}
+
+/* Custom Scrollbar for Atmospheric Deep Oceanic Navy UI */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050B1D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #004E89;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF6B35;
+}
+
+/* Atmospheric starry grid backdrop */
+.bg-tech-grid {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(247, 197, 159, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 78, 137, 0.05) 1px, transparent 1px);
+}
+

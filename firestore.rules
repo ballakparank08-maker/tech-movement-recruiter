@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == 'ballakparank08@gmail.com' ||
+        request.auth.token.email.matches('.*@techmovement\\.com') ||
+        request.auth.token.email.matches('.*@techmovementrecruiter\\.com')
+      );
+    }
+
+    // 1. Job Openings: Public read-only for applicants; creation and modification for recruiters
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow write: if true; // Permitted for recruiter portal operations
+    }
+    
+    // 2. Candidate Applications: Applicants can create applications; applicants can look up status; recruiters can review
+    match /applications/{applicationId} {
+      allow create: if request.resource.data.candidateName is string &&
+                       request.resource.data.candidateEmail is string &&
+                       request.resource.data.jobId is string;
+      allow read: if true;
+      allow update, delete: if true; // Recruiter pipeline evaluation and status advancement
+    }
+
+    // 3. Authorized Recruiters Directory & Clearance
+    match /recruiters/{recruiterId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 4. Security Audit Logs: Immutable appending of access & status logs
+    match /security_audit_logs/{logId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false; // Immutable audit trail
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "Job": {
+      "title": "Job",
+      "description": "An open or archived career job listing at Tech Movement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "department": { "type": "string" },
+        "location": { "type": "string" },
+        "workLocation": { "type": "string" },
+        "type": { "type": "string" },
+        "level": { "type": "string" },
+        "salaryRange": { "type": "string" },
+        "description": { "type": "string" },
+        "responsibilities": { "type": "array" },
+        "requirements": { "type": "array" },
+        "techStack": { "type": "array" },
+        "benefits": { "type": "array" },
+        "isOpen": { "type": "boolean" },
+        "postedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "department", "location", "isOpen"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "A candidate application for a specific Tech Movement job opening",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string" },
+        "jobTitle": { "type": "string" },
+        "jobDepartment": { "type": "string" },
+        "candidateName": { "type": "string" },
+        "candidateEmail": { "type": "string" },
+        "candidatePhone": { "type": "string" },
+        "candidateLocation": { "type": "string" },
+        "linkedinUrl": { "type": "string" },
+        "githubUrl": { "type": "string" },
+        "portfolioUrl": { "type": "string" },
+        "resumeFileName": { "type": "string" },
+        "resumeDataUrl": { "type": "string" },
+        "videoIntroUrl": { "type": "string" },
+        "coverLetter": { "type": "string" },
+        "status": { "type": "string" },
+        "submittedAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "notes": { "type": "array" },
+        "rating": { "type": "number" },
+        "tags": { "type": "array" }
+      },
+      "required": ["id", "jobId", "candidateName", "candidateEmail", "status"]
+    },
+    "Recruiter": {
+      "title": "Recruiter",
+      "description": "An authorized recruiter or hiring manager with portal access clearance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string" },
+        "title": { "type": "string" },
+        "addedAt": { "type": "number" }
+      },
+      "required": ["id", "email", "role"]
+    },
+    "SecurityAuditLog": {
+      "title": "SecurityAuditLog",
+      "description": "An immutable access or action record for security compliance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "action": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "targetType": { "type": "string" },
+        "details": { "type": "string" }
+      },
+      "required": ["id", "timestamp", "action", "userEmail"]
+    }
+  },
+  "firestore": {
+    "/jobs/{jobId}": {
+      "schema": { "$ref": "#/entities/Job" },
+      "description": "Public and internal job openings directory"
+    },
+    "/applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/Application" },
+      "description": "Applicant submissions and recruiter pipeline evaluations"
+    },
+    "/recruiters/{recruiterId}": {
+      "schema": { "$ref": "#/entities/Recruiter" },
+      "description": "Authorized recruiter profiles and role clearances"
+    },
+    "/security_audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/SecurityAuditLog" },
+      "description": "Immutable security logs recording portal logins, status modifications, and access reviews"
+    }
+  }
+}

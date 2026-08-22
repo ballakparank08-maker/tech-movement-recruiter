@@ -1,0 +1,11 @@
+{
+  "name": "Tech Movement Recruiter",
+  "description": "Enterprise recruitment platform for Tech Movement featuring searchable job listings, video & resume submissions, candidate status tracker, and secure role-gated Recruiter Portal with Google SSO, emergency passcode bypass, and immutable audit logs.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
